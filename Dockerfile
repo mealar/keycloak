@@ -34,9 +34,15 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 # Ortam değişkenlerini tanımla ve preview modunu etkinleştir
 ENV KC_FEATURES=preview
+ENV PROXY_ADDRESS_FORWARDING=true
+ENV KC_HTTP_PORT=8080
+
+# Sağlık kontrollerini etkinleştir
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
 
 # Giriş komutları
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 
 # Keycloak'u optimized modda başlat ve preview özellikleri aktif et
-CMD ["start", "--optimized", "--import-realm", "--features=preview"]
+CMD ["start", "--optimized", "--features=preview", "--import-realm"]
